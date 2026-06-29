@@ -528,7 +528,7 @@
   }
 
   function buildWhatsappLink(productName, days, price){
-    const msg = `Hola! Quiero comprar ${productName} por ${days} días (${formatGs(price)}). ¿Está disponible?`;
+    const msg = `Hola! Esta disponible ${productName}?`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   }
 
