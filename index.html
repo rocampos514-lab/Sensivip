@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensi Vip Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E0C12;
+    --surface:#16131C;
+    --surface-2:#1C1825;
+    --border:#2A2433;
+    --violet:#7C3AED;
+    --violet-bright:#9333FF;
+    --violet-light:#A78BFA;
+    --violet-dim:#3A2E5C;
+    --green:#22C55E;
+    --text:#F3F1F7;
+    --text-dim:#9C96AC;
+    --text-faint:#6B6478;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(124,58,237,0.16), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(124,58,237,0.10), transparent 40%);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    padding:64px 24px 40px;
+    text-align:center;
+    position:relative;
+  }
+
+  .status-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:99px;
+    padding:6px 16px;
+    font-size:13px;
+    color:var(--text-dim);
+    margin-bottom:28px;
+  }
+
+  .dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 0 rgba(34,197,94,0.6);
+    animation:pulse 2s infinite;
+  }
+
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(34,197,94,0.5);}
+    70%{box-shadow:0 0 0 6px rgba(34,197,94,0);}
+    100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}
+  }
+
+  .logo{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(36px, 7vw, 56px);
+    letter-spacing:-0.02em;
+    line-height:1;
+  }
+
+  .logo span{
+    color:var(--violet-light);
+  }
+
+  .tagline{
+    margin-top:14px;
+    color:var(--text-dim);
+    font-size:15px;
+    letter-spacing:0.01em;
+  }
+
+  .tagline strong{
+    color:var(--violet-light);
+    font-weight:600;
+  }
+
+  /* ---------- CONTAINER ---------- */
+  main{
+    max-width:680px;
+    margin:0 auto;
+    padding:0 20px 40px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  /* A partir de tablet/escritorio: el contenedor se ensancha y
+     el grid pasa a varias columnas usando todo el ancho disponible.
+     En celular (debajo de 768px) queda exactamente como antes. */
+  @media(min-width:768px){
+    main{
+      max-width:1180px;
+    }
+    .grid{
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+  }
+
+  @media(min-width:1100px){
+    .grid{
+      grid-template-columns:repeat(4, 1fr);
+    }
+  }
+
+  /* ---------- PRODUCT CARD ---------- */
+  .card{
+    background:linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:18px;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+
+  .card:hover{
+    border-color:var(--violet-dim);
+  }
+
+  .thumb{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:12px;
+    background:var(--violet-dim);
+  }
+
+  .thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .thumb-fallback{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    background:linear-gradient(160deg, var(--violet-dim), var(--surface-2));
+  }
+
+  .thumb-badge{
+    position:absolute;
+    bottom:7px;
+    left:7px;
+    background:rgba(14,12,18,0.78);
+    backdrop-filter:blur(4px);
+    border-radius:8px;
+    padding:4px 8px;
+    font-size:15px;
+    line-height:1;
+    display:flex;
+    align-items:center;
+  }
+
+  .card-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:8px;
+  }
+
+  .card-name{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:16.5px;
+    color:var(--text);
+  }
+
+  .card-stock{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:11.5px;
+    color:var(--green);
+    margin-top:4px;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+
+  .card-stock .dot{width:6px;height:6px;}
+
+  .card-desc{
+    font-size:12.5px;
+    color:var(--text-faint);
+    margin:10px 0 14px;
+    line-height:1.5;
+  }
+
+  .toggle-btn{
+    width:100%;
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--violet-light);
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    padding:11px;
+    border-radius:11px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:background .2s ease, border-color .2s ease;
+  }
+
+  .toggle-btn:hover{
+    background:var(--violet-dim);
+    border-color:var(--violet);
+  }
+
+  .toggle-btn svg{
+    width:13px;height:13px;
+    transition:transform .25s ease;
+    flex-shrink:0;
+  }
+
+  .card.open .toggle-btn svg{transform:rotate(180deg);}
+
+  .price-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+  }
+
+  .card.open .price-panel{
+    max-height:420px;
+  }
+
+  .price-list{
+    margin-top:12px;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+  }
+
+  .price-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 12px;
+    cursor:pointer;
+    transition:border-color .2s ease;
+  }
+
+  .price-row:hover{
+    border-color:var(--violet);
+  }
+
+  .price-days{
+    font-size:13px;
+    color:var(--text-dim);
+  }
+
+  .price-days strong{
+    color:var(--text);
+    font-weight:600;
+  }
+
+  .price-amount{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--violet-light);
+  }
+
+  .buy-btn{
+    margin-top:12px;
+    width:100%;
+    background:var(--green);
+    color:#0E1F12;
+    border:none;
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    padding:12px;
+    border-radius:11px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:filter .2s ease;
+  }
+
+  .buy-btn:hover{filter:brightness(1.08);}
+  .buy-btn svg{width:16px;height:16px;flex-shrink:0;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--border);
+    padding:48px 24px 56px;
+    text-align:center;
+  }
+
+  .footer-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:18px;
+    margin-bottom:6px;
+  }
+
+  .footer-sub{
+    color:var(--text-faint);
+    font-size:13px;
+    margin-bottom:28px;
+  }
+
+  .social-row{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-bottom:36px;
+  }
+
+  .social-link{
+    width:52px;
+    height:52px;
+    border-radius:14px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--text-dim);
+    transition:transform .2s ease, border-color .2s ease, color .2s ease;
+    text-decoration:none;
+  }
+
+  .social-link svg{width:23px;height:23px;}
+
+  .social-link:hover{
+    transform:translateY(-3px);
+    border-color:var(--violet);
+    color:var(--violet-light);
+  }
+
+  .footer-note{
+    font-size:11.5px;
+    color:var(--text-faint);
+    line-height:1.8;
+  }
+
+  .footer-note a{
+    color:var(--text-dim);
+    text-decoration:underline;
+  }
+
+  .footer-note a:hover{
+    color:var(--violet-light);
+  }
+
+  /* respeta reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .dot{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* foco visible para accesibilidad */
+  button:focus-visible, a:focus-visible{
+    outline:2px solid var(--violet-light);
+    outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="status-pill">
+    <span class="dot"></span>
+    Respondemos al instante por WhatsApp
+  </div>
+  <div class="logo">Sensi <span>Vip</span> Store</div>
+  <p class="tagline">Venta de licencias <strong>al mejor precio</strong></p>
+</header>
+
+<main>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="footer-title">¿Dudas antes de comprar?</div>
+  <p class="footer-sub">Escribinos, te respondemos al toque</p>
+
+  <div class="social-row">
+    <a class="social-link" id="wspFooter" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-1.746-.873-2.889-1.555-4.038-3.527-.305-.524.305-.487.873-1.62.099-.198.05-.371-.05-.519-.099-.149-.669-1.61-.916-2.207-.247-.595-.495-.514-.67-.524-.173-.01-.371-.012-.57-.012-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.05 3.13 4.967 4.27 2.918 1.139 2.918.76 3.86.633.942-.13 3.054-1.249 3.484-2.46.43-1.21.43-2.241.297-2.46-.13-.218-.273-.298-.57-.448z"/><path d="M12.05 2C6.55 2 2.04 6.486 2.04 11.96c0 2.083.59 4.027 1.61 5.674L2 22l4.49-1.602a10.07 10.07 0 0 0 5.56 1.658h.005c5.5 0 10.005-4.486 10.005-9.96C22.06 6.487 17.55 2 12.05 2zm5.834 14.05c-.79.985-1.93 1.683-3.247 1.943-.838.165-1.764.226-2.668.06-.736-.138-1.502-.378-2.234-.703l-2.5.892.83-2.46c-1.04-1.5-1.65-3.286-1.65-5.155 0-4.452 3.617-8.066 8.073-8.066 2.157 0 4.183.84 5.706 2.36a8.018 8.018 0 0 1 2.366 5.704c0 1.95-.703 3.687-1.676 4.925z"/></svg>
+    </a>
+    <a class="social-link" id="telegramLink" href="https://t.me/sensivipstore" target="_blank" rel="noopener" aria-label="Telegram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.46c-.15-.1-.34-.13-.51-.07L2.3 11.2c-.43.16-.42.78.01.93l4.55 1.6 1.74 5.6c.13.42.65.55.96.24l2.55-2.5 4.42 3.26c.36.27.88.07.96-.37l3.7-15.13c.06-.27-.05-.55-.25-.37zm-3.86 2.5L9.4 13.27l-3.7-1.3 12.38-4.99zM9.94 14.4l1.18 3.8-.04-3.4z"/></svg>
+    </a>
+    <a class="social-link" id="tiktokLink" href="https://tiktok.com/@sensi_vip_" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82a4.28 4.28 0 0 1-2.5-2.41V3h-3.1v13.5a2.7 2.7 0 1 1-1.9-2.58V10.6a5.85 5.85 0 0 0-1-.08A5.9 5.9 0 1 0 13.9 16V9.2a7.3 7.3 0 0 0 4.2 1.32V7.4a4.28 4.28 0 0 1-1.5-1.58z"/></svg>
+    </a>
+  </div>
+
+  <p class="footer-note">
+    📲 WhatsApp: <a id="wspText" href="#">+595 994 915 434</a> &nbsp;·&nbsp;
+    💬 Telegram: <a href="https://t.me/sensivipstore" target="_blank" rel="noopener">@sensivipstore</a> &nbsp;·&nbsp;
+    🎵 TikTok: <a href="https://tiktok.com/@sensi_vip_" target="_blank" rel="noopener">@sensi_vip_</a>
+    <br><br>
+    © 2026 Sensi Vip Store. Entregas digitales, soporte directo por WhatsApp.
+  </p>
+</footer>
+
+<script>
+  // ====================================================================
+  // EDITÁ ACÁ: tu número de WhatsApp, y tus productos / precios
+  // ====================================================================
+  const WHATSAPP_NUMBER = "595994915434"; // sin "+", sin espacios
+
+  const PRODUCTS = [
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#3DDC84" width="20" height="20"><path d="M17.523 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m-11.046 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m11.405-6.02l1.997-3.46a.413.413 0 0 0-.151-.565.41.41 0 0 0-.563.151l-2.02 3.5C15.62 8.16 13.86 7.65 12 7.65s-3.62.51-5.145 1.296L4.835 5.446a.41.41 0 0 0-.563-.151.41.41 0 0 0-.151.565l1.997 3.46C2.962 11.226 1 14.16 1 17.5h22c0-3.34-1.962-6.274-5.118-8.18"/></svg>`,
+      name: "Drip Client Apkmod",
+      desc: "Panel Android (NO ROOT)",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1511868819457708252/IMG-20260518-WA0085.jpg?ex=6a4251cf&is=6a41004f&hm=c8961ec71573b35a9abe22f758f5488467754aabcdad712236d4746bf87ea562",
+      prices: [ {days:7, price:15000}, {days:15, price:25000}, {days:30, price:40000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#3DDC84" width="20" height="20"><path d="M17.523 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m-11.046 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m11.405-6.02l1.997-3.46a.413.413 0 0 0-.151-.565.41.41 0 0 0-.563.151l-2.02 3.5C15.62 8.16 13.86 7.65 12 7.65s-3.62.51-5.145 1.296L4.835 5.446a.41.41 0 0 0-.563-.151.41.41 0 0 0-.151.565l1.997 3.46C2.962 11.226 1 14.16 1 17.5h22c0-3.34-1.962-6.274-5.118-8.18"/></svg>`, 
+      name: "Proxy Drip",
+      desc: "Proxy Android (NO ROOT)",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1515846532040101948/drip_proxy.jpg?ex=6a4249d8&is=6a40f858&hm=326d0de734e235e6e8dc2cbd4fab2fbec03deb11876b5f004b51b16769fe1309",
+      prices: [ {days:7, price:13000}, {days:7, price:13000}, {days:15, price:22000}, {days:30, price:35000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#3DDC84" width="20" height="20"><path d="M17.523 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m-11.046 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m11.405-6.02l1.997-3.46a.413.413 0 0 0-.151-.565.41.41 0 0 0-.563.151l-2.02 3.5C15.62 8.16 13.86 7.65 12 7.65s-3.62.51-5.145 1.296L4.835 5.446a.41.41 0 0 0-.563-.151.41.41 0 0 0-.151.565l1.997 3.46C2.962 11.226 1 14.16 1 17.5h22c0-3.34-1.962-6.274-5.118-8.18"/></svg>`,
+      name: "Cuban Mods FF",
+      desc: "Panel Android (NO ROOT)",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1515848136931803168/cuban_mods_apk.jpg?ex=6a424b56&is=6a40f9d6&hm=e8df87cf2af15a3032ae76219f08610aa4755b7baa2bfe1020668e4f53056ffb",
+      prices: [ {days:15, price:15000}, {days:30, price:25000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#3DDC84" width="20" height="20"><path d="M17.523 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m-11.046 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m11.405-6.02l1.997-3.46a.413.413 0 0 0-.151-.565.41.41 0 0 0-.563.151l-2.02 3.5C15.62 8.16 13.86 7.65 12 7.65s-3.62.51-5.145 1.296L4.835 5.446a.41.41 0 0 0-.563-.151.41.41 0 0 0-.151.565l1.997 3.46C2.962 11.226 1 14.16 1 17.5h22c0-3.34-1.962-6.274-5.118-8.18"/></svg>`, 
+      name: "Cuban Mods 8BP",
+      desc: "Panel 8 Ball Pool Android",
+      image: "https://cdn.discordapp.com/attachments/1492476607145971823/1509544270871269487/IMG-20260528-WA0027.jpg?ex=6a426ea8&is=6a411d28&hm=6ecfc641f78d605e8257092ce5028f49de57deac23f1650e23698b48c700365d",
+      prices: [ {days:15, price:14000}, {days:30, price:22000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#FFFFFF" width="20" height="20"><path d="M17.05 12.04c-.03-2.06 1.69-3.06 1.77-3.11-.96-1.4-2.46-1.6-3-1.62-1.3-.13-2.49.74-3.13.74-.66 0-1.66-.72-2.73-.7-1.4.02-2.7.81-3.42 2.06-1.46 2.53-.37 6.27 1.04 8.32.69 1 1.5 2.13 2.57 2.09 1.03-.04 1.42-.67 2.67-.67 1.24 0 1.6.67 2.69.65 1.11-.02 1.81-1 2.5-2 .8-1.16 1.12-2.28 1.14-2.34-.02-.01-2.17-.83-2.1-3.32M14.4 5.34c.55-.67.93-1.6.82-2.54-.8.03-1.77.55-2.34 1.22-.5.6-.95 1.55-.83 2.46.9.07 1.8-.46 2.35-1.14"/></svg>`,
+      name: "Cuban Proxy IOS",
+      desc: "Proxy IOS",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1509002379217866792/IMG-20260525-WA0031.jpg?ex=6a42703b&is=6a411ebb&hm=00c99c5d1ade7d2f5a96ea0344b5b4ffd15a1f8495e607888e7f35854371fce5",
+      prices: [ {days:15, price:18000}, {days:30, price:30000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#FFFFFF" width="20" height="20"><path d="M17.05 12.04c-.03-2.06 1.69-3.06 1.77-3.11-.96-1.4-2.46-1.6-3-1.62-1.3-.13-2.49.74-3.13.74-.66 0-1.66-.72-2.73-.7-1.4.02-2.7.81-3.42 2.06-1.46 2.53-.37 6.27 1.04 8.32.69 1 1.5 2.13 2.57 2.09 1.03-.04 1.42-.67 2.67-.67 1.24 0 1.6.67 2.69.65 1.11-.02 1.81-1 2.5-2 .8-1.16 1.12-2.28 1.14-2.34-.02-.01-2.17-.83-2.1-3.32M14.4 5.34c.55-.67.93-1.6.82-2.54-.8.03-1.77.55-2.34 1.22-.5.6-.95 1.55-.83 2.46.9.07 1.8-.46 2.35-1.14"/></svg>`,
+      name: "Monite Basic",
+      desc: "Panel Para Iphone",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1519836975685697536/IMG_0166.jpg?ex=6a424dbc&is=6a40fc3c&hm=d76dcde8a79c3c5e8a7e2a3f9302c7b1bb524bba349f06651d2736cb25383488&",
+      prices: [ {days:7, price:14000}, {days:30, price:38000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#FFFFFF" width="20" height="20"><path d="M17.05 12.04c-.03-2.06 1.69-3.06 1.77-3.11-.96-1.4-2.46-1.6-3-1.62-1.3-.13-2.49.74-3.13.74-.66 0-1.66-.72-2.73-.7-1.4.02-2.7.81-3.42 2.06-1.46 2.53-.37 6.27 1.04 8.32.69 1 1.5 2.13 2.57 2.09 1.03-.04 1.42-.67 2.67-.67 1.24 0 1.6.67 2.69.65 1.11-.02 1.81-1 2.5-2 .8-1.16 1.12-2.28 1.14-2.34-.02-.01-2.17-.83-2.1-3.32M14.4 5.34c.55-.67.93-1.6.82-2.54-.8.03-1.77.55-2.34 1.22-.5.6-.95 1.55-.83 2.46.9.07 1.8-.46 2.35-1.14"/></svg>`,
+      name: "Monite Pro",
+      desc: "Panel para Iphone",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1519836975987953886/IMG_0165.jpg?ex=6a424dbc&is=6a40fc3c&hm=b987a9177dacc2aed8c3d3aa672cd754fd19c590ee424820ef6cf8539c8e8fbf&",
+      prices: [ {days:15, price:16000}, {days:30, price:28000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#FFFFFF" width="20" height="20"><path d="M17.05 12.04c-.03-2.06 1.69-3.06 1.77-3.11-.96-1.4-2.46-1.6-3-1.62-1.3-.13-2.49.74-3.13.74-.66 0-1.66-.72-2.73-.7-1.4.02-2.7.81-3.42 2.06-1.46 2.53-.37 6.27 1.04 8.32.69 1 1.5 2.13 2.57 2.09 1.03-.04 1.42-.67 2.67-.67 1.24 0 1.6.67 2.69.65 1.11-.02 1.81-1 2.5-2 .8-1.16 1.12-2.28 1.14-2.34-.02-.01-2.17-.83-2.1-3.32M14.4 5.34c.55-.67.93-1.6.82-2.54-.8.03-1.77.55-2.34 1.22-.5.6-.95 1.55-.83 2.46.9.07 1.8-.46 2.35-1.14"/></svg>`,
+      name: "Fluorite",
+      desc: "Panel Para Iphone",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1507881947483869235/1778529520343-whatsapp-image-2026-05-11-at-2.58.25-pm.jpg?ex=6a42513f&is=6a40ffbf&hm=092247113a315ad36b573d89059898b9d91156a65a4f98a3bc78d0415f0215eb&",
+      prices: [ {days:30, price:20000}, {days:90, price:50000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#00A4EF" width="20" height="20"><path d="M3 5.5L10.5 4.4V11.4H3V5.5M11.5 4.3L21 3V11.3H11.5V4.3M3 12.4H10.5V19.5L3 18.4V12.4M11.5 12.4H21V21L11.5 19.7V12.4Z"/></svg>`,
+      name: "Bypass PC",
+      desc: "Bypass para PC",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1520900206009516152/Captura_de_pantalla_2026-06-28_173743.png?ex=6a42e032&is=6a418eb2&hm=952e0f2d9ce945728dfaa58c3f53b424f701ae18a7d4ba35be47f46e0ce38336&",
+      prices: [ {days:30, price:60000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#00A4EF" width="20" height="20"><path d="M3 5.5L10.5 4.4V11.4H3V5.5M11.5 4.3L21 3V11.3H11.5V4.3M3 12.4H10.5V19.5L3 18.4V12.4M11.5 12.4H21V21L11.5 19.7V12.4Z"/></svg>`,
+      name: "Panel PC",
+      desc: "Panel External Para PC",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1520900206751911997/Captura_de_pantalla_2026-06-28_172131.png?ex=6a42e032&is=6a418eb2&hm=9885006de0a1d874c82e4ccbb085910420c660ca835dd12e6ab36dc8aca4c811&",
+      prices: [ {days:15, price:14000}, {days:30, price:22000} ]
+    },
+    {
+      icon: `<svg viewBox="0 0 24 24" fill="#3DDC84" width="20" height="20"><path d="M17.523 15.34c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m-11.046 0c-.5 0-.91-.41-.91-.91s.41-.91.91-.91.91.41.91.91-.41.91-.91.91m11.405-6.02l1.997-3.46a.413.413 0 0 0-.151-.565.41.41 0 0 0-.563.151l-2.02 3.5C15.62 8.16 13.86 7.65 12 7.65s-3.62.51-5.145 1.296L4.835 5.446a.41.41 0 0 0-.563-.151.41.41 0 0 0-.151.565l1.997 3.46C2.962 11.226 1 14.16 1 17.5h22c0-3.34-1.962-6.274-5.118-8.18"/></svg>`,
+      name: "Strick BR",
+      desc: "Panel Para Android (ROOT)",
+      image: "https://cdn.discordapp.com/attachments/1490326077724299406/1520903097948569760/de751e45-6ca8-4f5a-87d9-941f77093137.jpg?ex=6a42e2e3&is=6a419163&hm=2835399c9fe4a3b480bc8b66732aad4184b32d82e85b46648d386d97959f09ef",
+      prices: [ {days:15, price:12000}, {days:30, price:20000} ]
+    }
+  ];
+  // ====================================================================
+
+  function formatGs(n){
+    return "Gs. " + n.toLocaleString("es-PY");
+  }
+
+  function buildWhatsappLink(productName, days, price){
+    const msg = `Hola! Quiero comprar ${productName} por ${days} días (${formatGs(price)}). ¿Está disponible?`;
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+
+  const grid = document.getElementById("grid");
+
+  PRODUCTS.forEach((product, idx) => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const priceRows = product.prices.map(p => `
+      <div class="price-row" data-days="${p.days}" data-price="${p.price}" data-idx="${idx}">
+        <span class="price-days"><strong>${p.days}</strong> días</span>
+        <span class="price-amount">${formatGs(p.price)}</span>
+      </div>
+    `).join("");
+
+    const thumbContent = product.image
+      ? `<img src="${product.image}" alt="${product.name}" loading="lazy">`
+      : `<div class="thumb-fallback">${product.icon}</div>`;
+
+    card.innerHTML = `
+      <div class="thumb">
+        ${thumbContent}
+        <div class="thumb-badge">${product.icon}</div>
+      </div>
+      <div class="card-top">
+        <div class="card-name">${product.name}</div>
+        <div class="card-stock"><span class="dot"></span> Disponible</div>
+      </div>
+      <p class="card-desc">${product.desc}</p>
+      <button class="toggle-btn" data-idx="${idx}" aria-expanded="false">
+        <span class="toggle-label">Ver precios</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="price-panel">
+        <div class="price-list">
+          ${priceRows}
+        </div>
+        <button class="buy-btn" data-idx="${idx}">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-1.746-.873-2.889-1.555-4.038-3.527-.305-.524.305-.487.873-1.62.099-.198.05-.371-.05-.519-.099-.149-.669-1.61-.916-2.207-.247-.595-.495-.514-.67-.524-.173-.01-.371-.012-.57-.012-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.05 3.13 4.967 4.27 2.918 1.139 2.918.76 3.86.633.942-.13 3.054-1.249 3.484-2.46.43-1.21.43-2.241.297-2.46-.13-.218-.273-.298-.57-.448z"/><path d="M12.05 2C6.55 2 2.04 6.486 2.04 11.96c0 2.083.59 4.027 1.61 5.674L2 22l4.49-1.602a10.07 10.07 0 0 0 5.56 1.658h.005c5.5 0 10.005-4.486 10.005-9.96C22.06 6.487 17.55 2 12.05 2zm5.834 14.05c-.79.985-1.93 1.683-3.247 1.943-.838.165-1.764.226-2.668.06-.736-.138-1.502-.378-2.234-.703l-2.5.892.83-2.46c-1.04-1.5-1.65-3.286-1.65-5.155 0-4.452 3.617-8.066 8.073-8.066 2.157 0 4.183.84 5.706 2.36a8.018 8.018 0 0 1 2.366 5.704c0 1.95-.703 3.687-1.676 4.925z"/></svg>
+          Consultar disponibilidad
+        </button>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  // toggle de precios + click en fila + click en comprar
+  grid.addEventListener("click", (e) => {
+    const toggleBtn = e.target.closest(".toggle-btn");
+    if (toggleBtn){
+      const card = toggleBtn.closest(".card");
+      const isOpen = card.classList.contains("open");
+      card.classList.toggle("open");
+      toggleBtn.setAttribute("aria-expanded", String(!isOpen));
+      toggleBtn.querySelector(".toggle-label").textContent = isOpen ? "Ver precios" : "Ocultar precios";
+      return;
+    }
+
+    const priceRow = e.target.closest(".price-row");
+    if (priceRow){
+      const product = PRODUCTS[priceRow.dataset.idx];
+      const days = parseInt(priceRow.dataset.days);
+      const price = parseInt(priceRow.dataset.price);
+      window.open(buildWhatsappLink(product.name, days, price), "_blank");
+      return;
+    }
+
+    const buyBtn = e.target.closest(".buy-btn");
+    if (buyBtn){
+      const product = PRODUCTS[buyBtn.dataset.idx];
+      const priceObj = product.prices[product.prices.length - 1];
+      window.open(buildWhatsappLink(product.name, priceObj.days, priceObj.price), "_blank");
+    }
+  });
+
+  // links de WhatsApp en el footer
+  const wspLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola! Tengo una consulta sobre los productos de Sensi Vip Store")}`;
+  document.getElementById("wspFooter").href = wspLink;
+  document.getElementById("wspText").href = wspLink;
+</script>
+
+</body>
+</html>
